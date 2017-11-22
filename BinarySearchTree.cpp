@@ -20,7 +20,7 @@ node *right = nullptr;
 node *left = nullptr;
 
 //all the funtion declarations are done here
-void getpreorder(node* ptr, int i);
+void getpreorder(node* ptr);
 
 int selection();
 
@@ -54,7 +54,7 @@ void main()
 			break;
 		case 4:
 			if (top != nullptr)
-				getpreorder(top, 1);
+				getpreorder(top);
 			break;
 		case 5:
 			exit = 1;
@@ -145,33 +145,25 @@ void insert(int info)
 	}
 }
 
-void getpreorder(node* ptr, int i)
+void getpreorder(node* ptr)
 {
-	//left
+	//travers left
 	Log("->", 0);
 	node* temp = ptr;
 	std::cout << ptr->info << " ";
 
-	if (ptr->left != nullptr && i == 1)
+	if (ptr->left != nullptr)
 	{
 		ptr = ptr->left;
-		getpreorder(ptr, 1);
-	}
-	else
-		i = 2;
-	ptr = temp;
-	//top
-	if (ptr != top && i == 1)
-	{
-		ptr = ptr->top;
-		if (ptr != nullptr)
-			getpreorder(ptr, 0);
+		getpreorder(ptr);
 	}
 	ptr = temp;
-	//right
-	if (ptr->right != nullptr && i != 2)
+	//travers right
+	if (ptr->right != nullptr)
 	{
 		ptr = ptr->right;
-		getpreorder(ptr,1);
+		getpreorder(ptr);
 	}
+
+	
 }
