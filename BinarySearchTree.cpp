@@ -30,6 +30,8 @@ int selection();
 
 void Log(char* text, int ending);
 
+node* getbaseleft(node* ptr);
+
 //void deletion();
 
 void insert(int info);
@@ -195,15 +197,17 @@ void getinorder(node* ptr)
 	Log("->", 0);
 	node* temp = ptr;
 	std::cout << ptr->info << " ";
-
+	int flag = 0;
 	if (ptr->right != nullptr)
 	{
 		ptr = ptr->right;
+		ptr = getbaseleft(ptr);	//this will return the left most element in the current branch
 		getinorder(ptr);
+		if (ptr->left == nullptr)
+			flag = 1;
 	}
-	ptr = temp;
 	//travers top
-	if (ptr->top != nullptr)
+	if (ptr->top != nullptr && flag == 0)
 	{
 		ptr = ptr->top;
 		getinorder(ptr);
@@ -230,5 +234,18 @@ void getpostorder(node* ptr)
 		getinorder(ptr);
 	}
 
+}
 
+node* getbaseleft(node* ptr)
+{
+	node* templeft = ptr;
+	while (true)
+	{
+		if (templeft->left != nullptr)
+		{
+			templeft = templeft->left;
+		}
+		else
+			return(templeft);
+	}
 }
