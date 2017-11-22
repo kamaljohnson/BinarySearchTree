@@ -22,6 +22,10 @@ node *left = nullptr;
 //all the funtion declarations are done here
 void getpreorder(node* ptr);
 
+void getinorder(node* ptr);
+
+void getpostorder(node* ptr);
+
 int selection();
 
 void Log(char* text, int ending);
@@ -57,6 +61,14 @@ void main()
 				getpreorder(top);
 			break;
 		case 5:
+			if (left != nullptr)
+				getinorder(left);
+			break;
+		case 6:
+			if (right != nullptr)
+				getpostorder(right);
+			break;
+		case 7:
 			exit = 1;
 			break;
 		default:
@@ -75,7 +87,9 @@ int selection()
 	Log("search element -----> 2", 1);
 	Log("delete element -----> 3", 1);
 	Log("preorder trav ------> 4", 1);
-	Log("exit ---------------> 5", 1);
+	Log("inorder trav -------> 5", 1);
+	Log("postorder trav -----> 6", 1);
+	Log("exit ---------------> 7", 1);
 	
 	std::cin >> select;
 	
@@ -100,11 +114,15 @@ void insert(int info)
 		top = newnode;
 		left = newnode;
 		right = newnode;
-		newnode->top = top;
+		newnode -> top = nullptr;
+		newnode -> left = nullptr;
+		newnode -> right = nullptr;
 	}
 	else
 	{
 		node* ptr = top;
+		int l = 0;
+		int r = 0;
 		while (true)
 		{
 			if (ptr == nullptr)
@@ -113,6 +131,7 @@ void insert(int info)
 				std::cout << ptr->info<<" ";
 			if (info > ptr->info)
 			{
+				l = 1;
 				L = false;
 				if (ptr->right == nullptr)
 				{
@@ -131,6 +150,8 @@ void insert(int info)
 				L = true;
 				if (ptr->left == nullptr)
 				{
+					if (l == 0)
+						left = ptr;
 					node* temp;
 					temp = ptr->left;
 					ptr->left = newnode;
@@ -142,6 +163,7 @@ void insert(int info)
 					ptr = ptr->left;
 			}
 		}
+		right = ptr;
 	}
 }
 
@@ -166,4 +188,47 @@ void getpreorder(node* ptr)
 	}
 
 	
+}
+void getinorder(node* ptr)
+{
+	//travers right
+	Log("->", 0);
+	node* temp = ptr;
+	std::cout << ptr->info << " ";
+
+	if (ptr->right != nullptr)
+	{
+		ptr = ptr->right;
+		getinorder(ptr);
+	}
+	ptr = temp;
+	//travers top
+	if (ptr->top != nullptr)
+	{
+		ptr = ptr->top;
+		getinorder(ptr);
+	}
+
+}
+void getpostorder(node* ptr)
+{
+	//travers right
+	Log("->", 0);
+	node* temp = ptr;
+	std::cout << ptr->info << " ";
+
+	if (ptr->right != nullptr)
+	{
+		ptr = ptr->right;
+		getinorder(ptr);
+	}
+	ptr = temp;
+	//travers top
+	if (ptr->top != nullptr)
+	{
+		ptr = ptr->top;
+		getinorder(ptr);
+	}
+
+
 }
